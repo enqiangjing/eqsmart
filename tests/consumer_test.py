@@ -1,3 +1,7 @@
+"""
+Consumer 调用远程服务
+"""
+
 from eqsmart.main.consumer import Consumer
 
 

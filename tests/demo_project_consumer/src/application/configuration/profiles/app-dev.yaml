@@ -1,4 +1,0 @@
-provider:
-  port: 7883
-  buf_size: 1024
-  backlog: 5
