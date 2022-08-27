@@ -1,0 +1,13 @@
+provider:
+  host: 0.0.0.0
+  ip: 11.11.0.127
+  port: 7901
+  buf_size: 1024
+  backlog: 5
+  weight: 2
+
+eqlink:
+  ip: 10.0.22.236
+  port: 7900
+  buf_size: 1024
+  backlog: 5

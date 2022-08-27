@@ -1,0 +1,24 @@
+app:
+  env: dev
+
+http:
+  port: 9701
+  host: 0.0.0.0
+
+eqlink:
+  ip: 11.11.0.127
+  port: 7887
+  buf_size: 1024
+  backlog: 5
+
+consumer:
+  alive: 20
+  reconnect:
+    count: 10
+    alive: 15
+
+
+provider:
+  port: 7882
+  buf_size: 1024
+  backlog: 5
