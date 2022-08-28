@@ -38,6 +38,57 @@ https://github.com/enqiangjing/eqsmart-consumer
 https://github.com/enqiangjing/eqsmart-gateway
 ```
 
+## 2. 使用测试
+向网关发送请求，获得响应结果。
+### 2.1 Test Function A
+**request**
+> POST http://127.0.0.1:7001/api_a/func_a
+```json
+
+{
+    "a": "test a",
+    "b": "test b"
+}
+```
+**response**
+```json
+{
+    "remote_a": {
+        "remote_a": {
+            "provider_a": "aa ++ ab"
+        },
+        "func_consumer_a": "a-a -- a-b",
+        "application_name": "Consumer"
+    },
+    "api_a_func_a": "test a -- test b",
+    "application_name": "Gateway"
+}
+```
+### 2.2 Test Function B
+**request**
+> POST http://127.0.0.1:7001/api_b/func_b
+```json
+
+{
+    "a": "test a",
+    "b": "test b"
+}
+```
+**response**
+```json
+{
+    "remote_b": {
+        "remote_b": {
+            "provider_b": "ba ++ bb"
+        },
+        "func_consumer_b": "b-a -- b-b",
+        "application_name": "Consumer"
+    },
+    "api_b_func_b": "test a -- test b",
+    "application_name": "Gateway"
+}
+```
+
 
 ## * 免责声明
 * 本项目所有内容仅供参考和学习交流使用。
