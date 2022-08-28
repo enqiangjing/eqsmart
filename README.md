@@ -10,6 +10,9 @@ https://github.com/enqiangjing/eqlink-server
 ```
 
 ## 1. 使用说明
+```shell script
+pip install eqsmart
+```
 启动中注册中心——启动服务提供者——启动服务消费者——启动网关服务。  
 实际使用过程中：服务消费者往往同时也是服务提供者；网关在提供HTTP服务的同时，也是服务消费者。  
 eqlink-server 会自动移除失效服务，eqlink-server 下线后 consumer 会重试一定次数（根据配置）再次连接注册中心。  
