@@ -13,7 +13,7 @@ class Consumer:
 
     def func_call_int(self, send_data):
         """
-        服务提供者注册
+        消费者调用器对象
         :return: None
         """
         try:
