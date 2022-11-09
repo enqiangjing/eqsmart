@@ -2,10 +2,12 @@ import math
 import random
 
 from eqsmart.main.consumer import Consumer
+from eqsmart.components.code_msg import REMOTE_CALL_ERROR_CODE, sys_error
 from eqlink.components.remote_server import remote_server
 from eqlink.main.clent import fail_server_list
 import json
 
+# 远程服务调用协议
 protocol = {
     'type': 'call provider',
     'service_name': '',
@@ -29,11 +31,10 @@ class RemoteCall:
         service_path = self.service_path.split('/')
         protocol['service_name'] = service_path[:-1]
         protocol['func'] = service_path[-1]
-        ''' 远程服务列表 '''
-        provider_service_list = remote_server.__get__()
-        ''' 远程服务地址信息'''
-        provider_server = provider_service_list[service_path[0]]['remote']
-        ''' 远程服务加权调用：计算权重 '''
+        provider_service_list = remote_server.__get__()  # 远程服务列表
+        provider_server = provider_service_list[service_path[0]]['remote']  # 远程服务地址信息
+
+        # ****** 远程服务加权调用：计算权重 ******
         weight_check = {'0': 1}
         count_w = 0  # 用于远程服务遍历的计数器
         count_c = 0  # 权值和
@@ -43,7 +44,7 @@ class RemoteCall:
             count_c = int(item['weight']) + count_c
         if count_c == 0:
             res_error = {
-                'code': 'remote_call_error',
+                'code': REMOTE_CALL_ERROR_CODE,
                 'message': '远程服务权重计算失败，服务可能不存在',
                 'data': protocol
             }
@@ -60,24 +61,24 @@ class RemoteCall:
                 call_weight = int(item)
             weight_m = weight_m + c_weight
         print('[eqsmart] [加权调用]', call_weight, call_random)
-        ''' 以上为加权调用的权重计算 '''
+        # ****** 以上为加权调用的权重计算 ******
+
         provider_conf = {
             'IP': provider_server[call_weight]['ip'],  # 远程服务器地址
             'PORT': provider_server[call_weight]['port'],  # 远程服务器端口
             'BUF_SIZE': buf_size  # 消息读取长度
         }
-        print('[eqsmart] 远程调用', provider_conf, protocol)
+        print('[eqsmart] 远程调用信息', provider_conf, protocol)
+
         try:
             remote_call = Consumer(provider_conf).func_call_int(protocol)
         except Exception as e:
             print('[eqsmart] 远程调用失败！', e)
-            remote_call = json.dumps({'code': 'remote_call_error', 'message': str(e)})
-        ''' 调用结果判断 '''
-        res = json.loads(remote_call)
-        try:
-            if res['code'] == 'remote_call_error':  # remote_call_error --> 结果加入服务移除列表
+            remote_call = json.dumps(sys_error(REMOTE_CALL_ERROR_CODE, str(e)))
+        res = json.loads(remote_call)  # 响应结果转json
+        try:  # 响应结果判断
+            if res['code'] == REMOTE_CALL_ERROR_CODE:  # Remote call error -> 将失败的服务，加入服务移除列表
                 fail_server_list.append({'IP': provider_conf['IP'], 'PORT': provider_conf['PORT']})
         except Exception as e:
-            ''' 远程调用可能不返回 code '''
-            print('远程调用成功！', e)
+            print('远程调用成功！', e)  # 远程调用的响应体可能不返回 code
         return res

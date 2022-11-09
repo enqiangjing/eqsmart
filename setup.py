@@ -2,10 +2,10 @@ from setuptools import setup, find_packages
 
 setup(
     name="eqsmart",
-    version="0.0.20",
+    version="2.0.1",
     keywords=("eqsmart", "微服务", "eqlink"),
     description="微服务框架",
-    long_description="更新仓库地址",
+    long_description="更新到2.0版本，使用json文件作为配置文件",
     license="MIT license",
 
     url="https://github.com/enqiangjing/eqsmart",
@@ -15,7 +15,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     platforms="any",
-    install_requires=['eqlink', 'PyYAML==6.0']
+    install_requires=['eqlink']
 )
 
 """
